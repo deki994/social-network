@@ -1,7 +1,7 @@
 {
   "name": "app",
   "version": "1.0.0",
-  "description": "",
+  "description": "1.aplika socijalne drustvene mreze",
   "default": "index.html",
   "scripts": {
     "start": "parcel index.html",
@@ -15,5 +15,14 @@
   "dependencies": {
     "core-js": "^3.32.2",
     "regenerator-runtime": "^0.14.0"
-  }
+  },
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/deki994/social-network.git"
+  },
+  "bugs": {
+    "url": "https://github.com/deki994/social-network/issues"
+  },
+  "homepage": "https://github.com/deki994/social-network#readme"
 }
