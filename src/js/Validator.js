@@ -1,104 +1,113 @@
-class Validator {
-	constructor(config, formID) {
-		this.elementsConfig = config;
-		this.formID = formID;
-		this.errors = {};
-		
-		this.generateErrorsObject();
-		this.inputListener();
-	}
+export default class Validator {
+  constructor(config, formID) {
+    this.elementsConfig = config;
+    this.formID = formID;
+    this.errors = {};
 
-	generateErrorsObject() {
-		for(let field in this.elementsConfig) {
-			this.errors[field] = [];
-		}
-	}
+    this.generateErrorsObject();
+    this.inputListener();
+  }
 
-	inputListener() {
-		let inputSelector = this.elementsConfig;
+  generateErrorsObject() {
+    for (let field in this.elementsConfig) {
+      this.errors[field] = [];
+    }
+  }
 
-		for(let field in inputSelector) {
-			let el = document.querySelector(`${this.formID} input[name="${field}"]`);
+  inputListener() {
+    let inputSelector = this.elementsConfig;
 
-			el.addEventListener('input', this.validate.bind(this));
-		}
-	}
+    for (let field in inputSelector) {
+      let el = document.querySelector(`${this.formID} input[name="${field}"]`);
 
-	validate(e) {
-		let elFields = this.elementsConfig;
+      el.addEventListener('input', this.validate.bind(this));
+    }
+  }
 
-		let field = e.target;
-		let fieldName = field.getAttribute('name');
-		let fieldValue = field.value;
+  validate(e) {
+    let elFields = this.elementsConfig;
 
-		this.errors[fieldName] = [];
+    let field = e.target;
+    let fieldName = field.getAttribute('name');
+    let fieldValue = field.value;
 
-		if(elFields[fieldName].required) {
-			if(fieldValue === '') {
-				this.errors[fieldName].push('Polje je prazno');
-			}
-		}
+    this.errors[fieldName] = [];
 
-		if(elFields[fieldName].email) {
-			if(!this.validateEmail(fieldValue)) {
-				this.errors[fieldName].push('Neispravna email adresa');
-			}
-		}
+    if (elFields[fieldName].required) {
+      if (fieldValue === '') {
+        this.errors[fieldName].push('Polje je prazno');
+      }
+    }
 
-		if(fieldValue.length < elFields[fieldName].minlength || fieldValue.length > elFields[fieldName].maxlength) {
-			this.errors[fieldName].push(`Polje mora imati minimalno ${elFields[fieldName].minlength} i maksimalno ${elFields[fieldName].maxlength} karaktera`);
-		}
+    if (elFields[fieldName].email) {
+      if (!this.validateEmail(fieldValue)) {
+        this.errors[fieldName].push('Neispravna email adresa');
+      }
+    }
 
-		if(elFields[fieldName].matching) {
-			let matchingEl = document.querySelector(`${this.formID} input[name="${elFields[fieldName].matching}"]`);
+    if (
+      fieldValue.length < elFields[fieldName].minlength ||
+      fieldValue.length > elFields[fieldName].maxlength
+    ) {
+      this.errors[fieldName].push(
+        `Polje mora imati minimalno ${elFields[fieldName].minlength} i maksimalno ${elFields[fieldName].maxlength} karaktera`
+      );
+    }
 
-			if(fieldValue !== matchingEl.value) {
-				this.errors[fieldName].push('Lozinke se ne poklapaju');
-			}
+    if (elFields[fieldName].matching) {
+      let matchingEl = document.querySelector(
+        `${this.formID} input[name="${elFields[fieldName].matching}"]`
+      );
 
-			if(this.errors[fieldName].length === 0) {
-				this.errors[fieldName] = [];
-				this.errors[elFields[fieldName].matching] = [];
-			}
-		}
+      if (fieldValue !== matchingEl.value) {
+        this.errors[fieldName].push('Lozinke se ne poklapaju');
+      }
 
-		this.populateErrors(this.errors);
-	}
+      if (this.errors[fieldName].length === 0) {
+        this.errors[fieldName] = [];
+        this.errors[elFields[fieldName].matching] = [];
+      }
+    }
 
-	validationPassed() {
-		for(let key of Object.keys(this.errors)) {
-			if(this.errors[key].length > 0) {
-				return false;
-			}
-		}
+    this.populateErrors(this.errors);
+  }
 
-		return true;
-	}
+  validationPassed() {
+    for (let key of Object.keys(this.errors)) {
+      if (this.errors[key].length > 0) {
+        return false;
+      }
+    }
 
-	populateErrors(errors) {
-		for(const elem of document.querySelectorAll('ul')) {
-			elem.remove();
-		}
+    return true;
+  }
 
-		for(let key of Object.keys(errors)) {
-			let parentElement = document.querySelector(`${this.formID} input[name="${key}"]`).parentElement;
-			let errorsElement = document.createElement('ul');
-			parentElement.appendChild(errorsElement);
+  populateErrors(errors) {
+    for (const elem of document.querySelectorAll('ul')) {
+      elem.remove();
+    }
 
-			errors[key].forEach(error => {
-				let li = document.createElement('li');
-				li.innerText = error;
+    for (let key of Object.keys(errors)) {
+      let parentElement = document.querySelector(
+        `${this.formID} input[name="${key}"]`
+      ).parentElement;
+      let errorsElement = document.createElement('ul');
+      parentElement.appendChild(errorsElement);
 
-				errorsElement.appendChild(li);
-			});
-		}
-	}
+      errors[key].forEach(error => {
+        let li = document.createElement('li');
+        li.innerText = error;
 
-	validateEmail(email) {
-		if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
-	    	return true;
-		}
-	    
-	    return false;
-	}
+        errorsElement.appendChild(li);
+      });
+    }
+  }
+
+  validateEmail(email) {
+    if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
+      return true;
+    }
+
+    return false;
+  }
 }
