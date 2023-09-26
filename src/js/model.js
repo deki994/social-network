@@ -1,3 +1,4 @@
+import { async } from 'regenerator-runtime';
 import Validator from './Validator.js';
 
 export let config = {
@@ -29,16 +30,35 @@ export let config = {
   },
 };
 
-export let validator = new Validator(config, '#registrationForm');
+export default class User {
+  user_id = '';
+  username = '';
+  email = '';
+  password = '';
+  api_url = 'https://650eadc854d18aabfe995dda.mockapi.io';
 
-export function pokreniValidacijuForme() {
-  document.querySelector('#registrationForm').addEventListener('submit', e => {
-    e.preventDefault();
+  async creat(data) {
+    data = {
+      username: data.username,
+      email: data.email,
+      password: data.password,
+    };
 
-    if (validator.validationPassed()) {
-      console.log('dobro  je sve');
-    } else {
-      console.log('nije dobro nesto');
-    }
-  });
+    await this.sendDataToApi(data);
+
+    /* return data; */
+  }
+
+  async sendDataToApi(data) {
+    let JSONData = JSON.stringify(data);
+    let respons = await fetch(`${this.api_url}/user`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSONData,
+    });
+    let result = await respons.json();
+    console.log(result);
+  }
 }
