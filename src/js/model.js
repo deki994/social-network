@@ -38,27 +38,31 @@ export default class User {
   api_url = 'https://650eadc854d18aabfe995dda.mockapi.io';
 
   async creat(data) {
-    data = {
-      username: data.username,
-      email: data.email,
-      password: data.password,
-    };
-
-    await this.sendDataToApi(data);
-
-    /* return data; */
+    try {
+      data = {
+        username: data.username,
+        email: data.email,
+        password: data.password,
+      };
+      await this.sendDataToApi(data);
+    } catch (err) {
+      throw err;
+    }
   }
 
   async sendDataToApi(data) {
-    let JSONData = JSON.stringify(data);
-    let respons = await fetch(`${this.api_url}/user`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSONData,
-    });
-    let result = await respons.json();
-    console.log(result);
+    try {
+      let JSONData = JSON.stringify(data);
+      let respons = await fetch(`${this.api_url}/user`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSONData,
+      });
+      await respons.json();
+    } catch (err) {
+      throw err;
+    }
   }
 }

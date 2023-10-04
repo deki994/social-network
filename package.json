@@ -10,7 +10,8 @@
   "author": "Dobrijevic Dejan",
   "license": "ISC",
   "devDependencies": {
-    "parcel": "2.0"
+    "parcel": "2.0",
+    "url-loader": "^4.1.1"
   },
   "dependencies": {
     "core-js": "^3.32.2",

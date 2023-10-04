@@ -11,7 +11,11 @@ import { async } from 'regenerator-runtime/runtime';
 export let validator = new Validator(model.config, '#registrationForm');
 
 async function createUser(formData) {
-  await modelCreateUser.creat(formData);
+  try {
+    await modelCreateUser.creat(formData);
+  } catch (err) {
+    console.log(err);
+  }
 }
 function init() {
   registracijaView.open();

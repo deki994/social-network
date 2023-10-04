@@ -37,6 +37,8 @@ class RegistracijaView {
         if (validator.validationPassed()) {
           let formData = this.gatherFormData();
           data(formData);
+
+          window.location.href = 'hexa.html';
         } else {
           console.log('nije dobro nesto');
         }
