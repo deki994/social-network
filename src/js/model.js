@@ -58,7 +58,6 @@ export default class User {
       },
       body: JSONData,
     });
-    let result = await respons.json();
-    console.log(result);
+    await respons.json();
   }
 }

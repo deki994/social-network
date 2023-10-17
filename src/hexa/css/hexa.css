@@ -1,0 +1,22 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: sans-serif;
+  padding: 50px;
+  background-image: url('../img/bg.jpg');
+  color: white;
+  background-size: cover;
+  box-shadow: rgba(0, 0, 0, 0.8) 0 0 0 1000px inset;
+}
+
+button {
+  cursor: pointer;
+}
+
+.hexaHeader {
+  text-align: center;
+}

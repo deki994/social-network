@@ -46,11 +46,11 @@ export default class Validator {
     }
 
     if (
-      fieldValue.length < elFields[fieldName].minlength ||
-      fieldValue.length > elFields[fieldName].maxlength
+      fieldValue.length < 5 || // Proverava minimalnu dužinu šifre
+      fieldValue.length > elFields[fieldName].maxLength
     ) {
       this.errors[fieldName].push(
-        `Polje mora imati minimalno ${elFields[fieldName].minlength} i maksimalno ${elFields[fieldName].maxlength} karaktera`
+        `Polje mora imati minimalno 5 karaktera i maksimalno ${elFields[fieldName].maxLength} karaktera`
       );
     }
 
