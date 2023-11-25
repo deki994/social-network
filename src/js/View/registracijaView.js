@@ -1,3 +1,5 @@
+import { async } from 'regenerator-runtime';
+
 class RegistracijaView {
   _btn = document.querySelector('#registracija');
   _parrentEl = document.querySelector('.custom-modal');
@@ -31,14 +33,12 @@ class RegistracijaView {
   pokreniValidacijuForme(validator, data) {
     document
       .querySelector('#registrationForm')
-      .addEventListener('submit', e => {
+      .addEventListener('submit', async e => {
         e.preventDefault();
 
         if (validator.validationPassed()) {
           let formData = this.gatherFormData();
-          data(formData);
-
-          window.location.href = 'hexa.html';
+          await data(formData);
         } else {
           console.log('nije dobro nesto');
         }
