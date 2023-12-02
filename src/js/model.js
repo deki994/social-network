@@ -95,6 +95,8 @@ export default class User {
       let res = await fetch(`${this.api_url}/user`);
       let data = await res.json();
 
+      if (!res.ok) return;
+
       return data;
     } catch (err) {
       console.log(err);
